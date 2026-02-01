@@ -1,21 +1,20 @@
-document.addEventListener('DOMContentLoaded', function () {
-  const board = document.querySelector('.board')
-  const addTask = document.querySelectorAll('.add-task')
+document.addEventListener("DOMContentLoaded", function () {
+  const board = document.querySelector(".board");
+  const addTask = document.querySelectorAll(".add-task");
   const state = new Map();
-  let nextId = 1
+  let nextId = 1;
 
   loadStateFromLocalStorage();
 
-  const placeholder = document.createElement('div');
-  placeholder.className = 'task-placeholder';
+  const placeholder = document.createElement("div");
+  placeholder.className = "task-placeholder";
 
+  addTask.forEach((task) => {
+    task.addEventListener("click", (e) => {
+      e.preventDefault;
 
-  addTask.forEach(task => {
-    task.addEventListener('click', e => {
-      e.preventDefault
-
-      const target = e.currentTarget
-      const blockFooter = task.closest('.board__block-footer')
+      const target = e.currentTarget;
+      const blockFooter = task.closest(".board__block-footer");
 
       const taskInfoHTML = `
                 <div class="task-info">
@@ -26,22 +25,22 @@ document.addEventListener('DOMContentLoaded', function () {
                         <a href="#">...</a>
                     </div>
                 </div>
-            `
+            `;
 
-      target.classList.add('hidden')
-      blockFooter.insertAdjacentHTML('beforeend', taskInfoHTML)
+      target.classList.add("hidden");
+      blockFooter.insertAdjacentHTML("beforeend", taskInfoHTML);
 
-      blockFooter.querySelector('textarea').focus()
+      blockFooter.querySelector("textarea").focus();
 
       const taskInfo = blockFooter.lastElementChild;
-      taskInfo.addEventListener('click', e => {
-        if (e.target.classList.contains('add-card')) {
-          const taskText = taskInfo.querySelector('textarea').value
+      taskInfo.addEventListener("click", (e) => {
+        if (e.target.classList.contains("add-card")) {
+          const taskText = taskInfo.querySelector("textarea").value;
 
-          console.log(taskText)
+          console.log(taskText);
 
-          const blockWrapper = e.target.closest('.board__block')
-          const boardContent = blockWrapper.querySelector('.task__list')
+          const blockWrapper = e.target.closest(".board__block");
+          const boardContent = blockWrapper.querySelector(".task__list");
 
           const taskHTML = `
                         <div class="task" draggable="true" id="${nextId}" data-status=${blockWrapper.id}>
@@ -52,49 +51,53 @@ document.addEventListener('DOMContentLoaded', function () {
                             </svg>
                         </a>
                         </div>
-                    `
+                    `;
 
-          boardContent.insertAdjacentHTML('beforeend', taskHTML)
-          taskInfo.remove()
-          target.classList.remove('hidden')
+          boardContent.insertAdjacentHTML("beforeend", taskHTML);
+          taskInfo.remove();
+          target.classList.remove("hidden");
 
           state.set(nextId, {
             id: nextId,
             status: blockWrapper.id,
-            task: taskText
+            task: taskText,
           });
-          nextId++
-          console.log(state)
+          nextId++;
+          console.log(state);
 
           saveStateToLocalStorage();
         }
-      })
-    })
-
-  })
+      });
+    });
+  });
 
   function getDragAfterElement(container, y) {
     const draggableElements = [
-      ...container.querySelectorAll('.task:not(.dragging)')
+      ...container.querySelectorAll(".task:not(.dragging)"),
     ];
 
-    return draggableElements.reduce((closest, child) => {
-      const box = child.getBoundingClientRect();
-      const offset = y - box.top - box.height / 2;
+    return draggableElements.reduce(
+      (closest, child) => {
+        const box = child.getBoundingClientRect();
+        const offset = y - box.top - box.height / 2;
 
-      if (offset < 0 && offset > closest.offset) {
-        return {offset, element: child};
-      } else {
-        return closest;
-      }
-    }, {offset: Number.NEGATIVE_INFINITY}).element;
+        if (offset < 0 && offset > closest.offset) {
+          return { offset, element: child };
+        } else {
+          return closest;
+        }
+      },
+      { offset: Number.NEGATIVE_INFINITY },
+    ).element;
   }
 
-
-  document.addEventListener('click', e => {
+  document.addEventListener("click", (e) => {
     console.log("Нажата кнопка:", e.target);
-    if (e.target.classList.contains('task__remove') || e.target.closest('.task__remove')) {
-      const task = e.target.closest('.task');
+    if (
+      e.target.classList.contains("task__remove") ||
+      e.target.closest(".task__remove")
+    ) {
+      const task = e.target.closest(".task");
       console.log("Удаляется задача:", task);
       task.remove();
       state.delete(Number(task.id));
@@ -102,36 +105,36 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
 
-  const taskLists = document.querySelectorAll('.task__list');
+  const taskLists = document.querySelectorAll(".task__list");
 
-  taskLists.forEach(list => {
-    list.addEventListener('dragstart', e => {
-      if (e.target.classList.contains('task')) {
-        e.target.style.cursor = 'grabbing';
-        e.dataTransfer.setData('text/plain', '');
-        e.target.classList.add('selected');
+  taskLists.forEach((list) => {
+    list.addEventListener("dragstart", (e) => {
+      if (e.target.classList.contains("task")) {
+        e.target.style.cursor = "grabbing";
+        e.dataTransfer.setData("text/plain", "");
+        e.target.classList.add("selected");
 
-        e.dataTransfer.setData('taskId', e.target.id);
-        e.target.classList.add('dragging');
+        e.dataTransfer.setData("taskId", e.target.id);
+        e.target.classList.add("dragging");
 
         placeholder.style.height = `${e.target.offsetHeight}px`;
       }
     });
 
-    list.addEventListener('dragend', e => {
-      if (e.target.classList.contains('task')) {
-        e.target.style.cursor = '';
-        e.target.classList.remove('selected');
+    list.addEventListener("dragend", (e) => {
+      if (e.target.classList.contains("task")) {
+        e.target.style.cursor = "";
+        e.target.classList.remove("selected");
       }
 
       placeholder.remove();
-      document.querySelector('.dragging')?.classList.remove('dragging');
+      document.querySelector(".dragging")?.classList.remove("dragging");
     });
 
-    list.addEventListener('dragover', e => {
+    list.addEventListener("dragover", (e) => {
       e.preventDefault();
 
-      const dragging = document.querySelector('.dragging');
+      const dragging = document.querySelector(".dragging");
       if (!dragging) return;
 
       const afterElement = getDragAfterElement(list, e.clientY);
@@ -143,40 +146,40 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     });
 
-    list.addEventListener('drop', e => {
+    list.addEventListener("drop", (e) => {
       e.preventDefault();
 
-      const taskId = e.dataTransfer.getData('taskId');
+      const taskId = e.dataTransfer.getData("taskId");
       const draggedItem = document.getElementById(taskId);
 
       list.insertBefore(draggedItem, placeholder);
       placeholder.remove();
 
-      draggedItem.classList.remove('dragging');
+      draggedItem.classList.remove("dragging");
 
-      const newStatus = list.closest('.board__block').id;
+      const newStatus = list.closest(".board__block").id;
 
       const item = state.get(Number(taskId));
       if (item) {
         item.status = newStatus;
-        draggedItem.dataset.status = newStatus
+        draggedItem.dataset.status = newStatus;
         saveStateToLocalStorage();
       }
 
-      console.log('UPDATED STATE:', state);
+      console.log("UPDATED STATE:", state);
     });
   });
 
   function saveStateToLocalStorage() {
     const stateToSave = {
       nextId: nextId,
-      tasks: Object.fromEntries(state.entries())
+      tasks: Object.fromEntries(state.entries()),
     };
-    localStorage.setItem('trelloBoardState', JSON.stringify(stateToSave));
+    localStorage.setItem("trelloBoardState", JSON.stringify(stateToSave));
   }
 
   function loadStateFromLocalStorage() {
-    const saved = localStorage.getItem('trelloBoardState');
+    const saved = localStorage.getItem("trelloBoardState");
     if (!saved) return;
 
     try {
@@ -189,31 +192,31 @@ document.addEventListener('DOMContentLoaded', function () {
         state.set(id, {
           id: id,
           status: task.status,
-          task: task.task
+          task: task.task,
         });
       }
 
       renderTasksFromState();
     } catch (e) {
-      console.warn('Failed to parse saved state', e);
-      localStorage.removeItem('trelloBoardState');
+      console.warn("Failed to parse saved state", e);
+      localStorage.removeItem("trelloBoardState");
     }
   }
 
   function renderTasksFromState() {
-    document.querySelectorAll('.task__list').forEach(list => {
-      list.innerHTML = '';
+    document.querySelectorAll(".task__list").forEach((list) => {
+      list.innerHTML = "";
     });
 
-    state.forEach(task => {
+    state.forEach((task) => {
       const column = document.getElementById(task.status);
       if (!column) return;
 
-      const taskList = column.querySelector('.task__list');
+      const taskList = column.querySelector(".task__list");
       if (!taskList) return;
 
-      const taskEl = document.createElement('div');
-      taskEl.className = 'task';
+      const taskEl = document.createElement("div");
+      taskEl.className = "task";
       taskEl.draggable = true;
       taskEl.id = task.id;
       taskEl.dataset.status = task.status;
@@ -229,16 +232,15 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
-
   // Drag & Drop Task 2
-  const formUpload = document.querySelector('.drag-and-drop-form');
-  const preview = document.querySelector('.preview');
+  const formUpload = document.querySelector(".drag-and-drop-form");
+  const preview = document.querySelector(".preview");
   const input = formUpload.querySelector('input[type="file"]');
 
   let selectedFiles = [];
 
   if (formUpload) {
-    let hoverClassName = 'hover';
+    let hoverClassName = "hover";
 
     formUpload.addEventListener("dragenter", function (e) {
       e.preventDefault();
@@ -255,19 +257,19 @@ document.addEventListener('DOMContentLoaded', function () {
       formUpload.classList.remove(hoverClassName);
     });
 
-    formUpload.addEventListener('drop', e => {
-      e.preventDefault()
+    formUpload.addEventListener("drop", (e) => {
+      e.preventDefault();
       addFiles(e.dataTransfer.files);
     });
 
-    input.addEventListener('change', e => {
+    input.addEventListener("change", (e) => {
       addFiles(e.target.files);
-      input.value = '';
+      input.value = "";
     });
 
     function addFiles(fileList) {
-      Array.from(fileList).forEach(file => {
-        if (!file.type.startsWith('image/')) return;
+      Array.from(fileList).forEach((file) => {
+        if (!file.type.startsWith("image/")) return;
 
         selectedFiles.push(file);
       });
@@ -276,26 +278,26 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function renderPreview() {
-      preview.innerHTML = '';
+      preview.innerHTML = "";
 
       selectedFiles.forEach((file, index) => {
-        const wrapper = document.createElement('div');
-        wrapper.className = 'preview__img-wrapper';
+        const wrapper = document.createElement("div");
+        wrapper.className = "preview__img-wrapper";
 
-        const img = document.createElement('img');
+        const img = document.createElement("img");
         img.src = URL.createObjectURL(file);
         img.onload = () => URL.revokeObjectURL(img.src);
 
-        const removeImg = document.createElement('a');
-        removeImg.href = '#';
-        removeImg.className = 'preview__img-remove';
+        const removeImg = document.createElement("a");
+        removeImg.href = "#";
+        removeImg.className = "preview__img-remove";
         removeImg.innerHTML = `
                 <svg width="16" height="16" viewBox="0 0 16 16">
                     <path d="M15 2.41L13.59 1L8 6.59L2.41 1L1 2.41L6.59 8L1 13.59L2.41 15L8 9.41L13.59 15L15 13.59L9.41 8L15 2.41Z"/>
                 </svg>
             `;
 
-        removeImg.addEventListener('click', e => {
+        removeImg.addEventListener("click", (e) => {
           e.preventDefault();
           selectedFiles.splice(index, 1);
           renderPreview();
@@ -305,9 +307,5 @@ document.addEventListener('DOMContentLoaded', function () {
         preview.append(wrapper);
       });
     }
-
-
   }
-
-
-})
+});

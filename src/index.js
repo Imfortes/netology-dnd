@@ -1,4 +1,4 @@
 import "./css/style.css";
 import "./js/app.js";
 
-console.log('App started')
+console.log("App started");

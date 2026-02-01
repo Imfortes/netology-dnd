@@ -1,15 +1,44 @@
 {
-    "extends": "airbnb-base",
-    "env": {
-       "es6": true,
-       "browser": true,
-       "jest": true
-    },
-    "rules": {
-      "no-restricted-syntax": [
-        "error",
-        "LabeledStatement",
-        "WithStatement"
-      ]
-    }
+  "env": {
+    "browser": true,
+    "es6": true,
+    "jest": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 2020,
+    "sourceType": "module"
+  },
+  "rules": {
+    // Разрешить двойные и одинарные кавычки
+    "quotes": ["warn", "double"],
+
+    // Точка с запятой — не обязательна
+    "semi": ["warn", "never"],
+
+    // Разрешить console.log (но предупреждать)
+    "no-console": "warn",
+
+    // Разрешить использовать .js в импортах
+    "import/extensions": ["warn", "ignorePackages", {
+      "js": "always"
+    }],
+
+    // Не требовать, чтобы зависимости были в package.json
+    "import/no-extraneous-dependencies": ["error", {
+      "devDependencies": true
+    }],
+
+    // Запрет опасных конструкций остаётся
+    "no-restricted-syntax": [
+      "error",
+      "LabeledStatement",
+      "WithStatement"
+    ],
+
+    // Разрешить пустые строки в конце файла
+    "eol-last": "off",
+
+    // Не требовать упорядоченности импортов
+    "import/order": "off"
   }
+}
