@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", function () {
-  const board = document.querySelector(".board");
   const addTask = document.querySelectorAll(".add-task");
   const state = new Map();
   let nextId = 1;
