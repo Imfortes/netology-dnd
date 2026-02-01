@@ -1,0 +1,189 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.wrapper {
+    margin-top: 3rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.board {
+    margin-top: 1.5rem;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(300px, 1fr));
+    gap: 0.5rem;
+    padding: 0.5rem;
+    background: #4b6bff;
+}
+
+.board a {
+    color: #878787;
+    text-decoration: none;
+}
+
+.board__block {
+    background: #f5f5f5;
+    padding: 0.5rem;
+}
+
+.boadr__block-header {
+    padding: 0 0.5rem 0.5rem 0.5rem;
+    background: #f5f5f5;
+}
+
+.board__content-grab {
+    min-height: 50px;
+    /* background: #fff; */
+}
+
+.task {
+    position: relative;
+    padding: 0.5rem;
+    background: #fff;
+    margin-bottom: 0.5rem;
+    box-shadow: 0 0 5px 0 rgba(0,0,0,.25);
+    cursor: grab;
+}
+
+.task.selected {
+    opacity: 0.6;
+    cursor: grab;
+}
+
+.board__content-grab .board__item {
+    background: #fff;
+    padding: 0.5rem;
+}
+
+.board__block-footer {
+    padding: 0.5rem 0.5rem 0 0.5rem;
+}
+
+.task-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.task-info__control {
+    height: fit-content;
+    display: flex;
+}
+
+.task-info textarea {
+    width: 100%;
+    border: none;
+    resize: none;
+    padding: 0.5rem;
+}
+
+a.add-card {
+    padding: 0.5rem 1rem;
+    background: #029506;
+    color: #fff;
+}
+
+.add-task {
+    display: block;
+    transition: .5s;
+}
+
+.add-task.hidden {
+    opacity: 0;
+    height: 0;
+    pointer-events: none;
+}
+
+.task__remove {
+    pointer-events: none;
+    opacity: 0;
+    transition: .5s;
+    position: absolute;
+    top: 50%;
+    right: 0.5rem;
+    transform: translateY(-50%);
+    height: -webkit-fill-available;
+}
+
+.task:hover .task__remove {
+    opacity: 1;
+    pointer-events: unset;
+}
+
+
+
+
+
+
+/* Task 2 Drag & Drop */
+
+.drag-and-drop form {
+    min-height: 300px;
+}
+
+.drag-and-drop-form input {
+    display: none;
+}
+
+.drag-and-drop-form label {
+    margin-top: 1.5rem;
+    display: flex;
+    width: clamp(350px, 50vw, 800px);
+    height: clamp(200px, 25vh, 400px);
+    border: 1px solid gray;
+    justify-content: center;
+    align-items: center;
+    border-radius: .5rem;
+    cursor: pointer;
+}
+
+.preview {
+    margin: 0 auto;
+    max-width: 800px;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1rem;
+}
+
+.preview__img-wrapper {
+    position: relative;
+}
+
+.preview img {
+    max-width: 100%;
+    height: auto;
+    width: 100%;
+}
+
+.preview__img-remove {
+    position: absolute;
+    top: -0.25rem;
+    right: -0.25rem;
+    background: rgba(255,255,255, 0.25);
+    max-height: 1rem;
+}
+
+.task-placeholder {
+    height: 60px;
+    margin-bottom: 8px;
+    border-radius: 6px;
+    background: rgba(0, 0, 0, 0.1);
+    border: 2px dashed rgba(0, 0, 0, 0.2);
+}
+
+.task.dragging {
+    opacity: 0.4;
+}
+
+.task__list.drag-over {
+    background: rgba(0,0,0,0.05);
+}
+
+.task {
+    transition: transform 0.15s ease;
+}

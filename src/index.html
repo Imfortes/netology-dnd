@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <div class="wrapper">
+        <h1>
+            Task 1 - Trello
+        </h1>
+
+        <div class="board">
+            <div class="todo board__block" id="todo">
+                <div class="todo__header boadr__block-header">
+                    <h2>TODO</h2>
+                </div>
+                <div class="todo__content task__list board__content-grab">
+                    <!-- <div class="task">
+                        jaksdfklasdf
+                        <a href="#" class="task__remove">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M15 2.41L13.59 1L8 6.59L2.41 1L1 2.41L6.59 8L1 13.59L2.41 15L8 9.41L13.59 15L15 13.59L9.41 8L15 2.41Z" fill="black"/>
+                            </svg>
+                        </a>
+                    </div> -->
+                </div>
+                <div class="todo__footer board__control board__block-footer">
+                    <a href="#" class="add-task">
+                        + Add another card
+                    </a>
+                    <!-- <div class="task-info">
+                        <textarea name="task-description" id="" rows="5"></textarea>
+                        <div class="task-info__control">
+                            <a href="#" class="add-card">Add Card</a>
+                            <a href="#">x</a>
+                            <a href="#">...</a>
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+
+            <div class="in-progress board__block" id="in-progress">
+                <div class="in-progress__header boadr__block-header">
+                    <h2>IN PROGRESS</h2>
+                </div>
+
+                <div class="in-progress__content task__list board__content-grab">
+
+                </div>
+                <div class="in-progress__footer board__control board__block-footer">
+                    <a href="#" class="add-task">
+                        + Add another card
+                    </a>
+                </div>
+            </div>
+
+            <div class="done board__block" id="done">
+                <div class="done__header boadr__block-header">
+                    <h2>DONE</h2>
+                </div>
+
+                <div class="done__content task__list board__content-grab">
+
+                </div>
+                <div class="done__footer board__control board__block-footer">
+                    <a href="#" class="add-task">
+                        + Add another card
+                    </a>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+    <div class="wrapper">
+        <h1>Task 2 - Modern Image Manager</h1>
+
+        <div class="drag-and-drop">
+            <form method="post" enctype="multipart/form-data" class="drag-and-drop-form">
+                <input type="file" name="photo" id="photo">
+                <label for="photo" class="upload-label">
+                    Drag & Drop files here or Click to select
+                </label>
+            </form>     
+            
+            <div class="preview"></div>
+        </div>
+
+    </div>
+
+</body>
+</html>
